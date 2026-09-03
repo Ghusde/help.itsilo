@@ -4,7 +4,7 @@
 
 import {
   COOKIE_NAME, STATE_COOKIE, SESSION_MAX_AGE,
-  createSession, readCookie, buildCookie,
+  createSession, readCookie, buildCookie, originOf,
 } from '../../lib/session.js';
 import { isAllowed } from '../../lib/allowed-emails.js';
 
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   const [savedState, savedNext = '/'] = cookie.split('|');
   if (savedState !== state) return deny(res, 'invalid');   // kemungkinan CSRF
 
-  const origin = `https://${req.headers['x-forwarded-host'] || req.headers.host}`;
+  const origin = originOf(req);
 
   // --- tukar authorization code dengan token ---
   let payload;

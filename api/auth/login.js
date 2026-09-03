@@ -1,6 +1,6 @@
 /* Langkah 1: lempar pengguna ke halaman izin Google. */
 
-import { STATE_COOKIE, buildCookie } from '../../lib/session.js';
+import { STATE_COOKIE, buildCookie, originOf } from '../../lib/session.js';
 
 export default function handler(req, res) {
   const clientId = process.env.GOOGLE_CLIENT_ID;
@@ -9,7 +9,7 @@ export default function handler(req, res) {
     return;
   }
 
-  const origin = `https://${req.headers['x-forwarded-host'] || req.headers.host}`;
+  const origin = originOf(req);
 
   // Tujuan setelah login berhasil; hanya path internal yang diterima
   // supaya tidak bisa dipakai melempar orang ke situs lain.
