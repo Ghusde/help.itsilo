@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark" data-layout="fixed">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAKED IT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="docs.css">
+<style>
+.doc-content {
+  max-width:900px;
+  font-size:16px;
+  line-height:1.7;
+  color:var(--fg-2);
+}
+.doc-content h2 {
+  margin-top:32px;
+  margin-bottom:16px;
+  font-size:24px;
+  font-weight:700;
+  color:var(--fg);
+}
+.doc-content h3 {
+  margin-top:24px;
+  margin-bottom:12px;
+  font-size:19px;
+  font-weight:600;
+  color:var(--fg);
+}
+.doc-content p {
+  margin-bottom:16px;
+}
+.doc-content ul, .doc-content ol {
+  margin-bottom:16px;
+  padding-left:24px;
+}
+.doc-content li {
+  margin-bottom:8px;
+}
+.doc-content code {
+  background:var(--card);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:'Courier New',monospace;
+  font-size:14px;
+  color:var(--fg);
+}
+.doc-content pre {
+  background:var(--card);
+  padding:16px;
+  border-radius:8px;
+  overflow-x:auto;
+  margin-bottom:16px;
+}
+.doc-content pre code {
+  background:none;
+  padding:0;
+  color:#7ab0ef;
+}
+.doc-content blockquote {
+  border-left:4px solid var(--border);
+  padding-left:16px;
+  margin:16px 0;
+  color:var(--fg-3);
+  font-style:italic;
+}
+.breadcrumb-nav {
+  margin-bottom:24px;
+}
+</style>
+</head>
+<body class="docs">
+
+<div class="scrim" id="scrim"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="docs-header">
+  <div class="docs-bar">
+    <a class="brand" href="index.html">
+      <span class="brand-name">BAKED IT</span>
+    </a>
+
+    <!-- ---- search + dropdown ---- -->
+    <div class="search-wrap" id="searchWrap">
+      <div class="search-field" id="searchField">
+        <svg class="s-ico" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20.5 20.5L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="searchInput" type="text" autocomplete="off" spellcheck="false"
+               placeholder="Cari topik, perangkat, atau kode error" data-i18n-ph="search.ph"
+               aria-label="Cari dokumentasi">
+        <span class="kbd">/</span>
+      </div>
+      <div class="search-panel" id="searchPanel"></div>
+    </div>
+
+    <div class="hero-nav-right">
+      <a class="nav-link" href="#" data-i18n="nav.whatsnew">Pembaruan</a>
+
+      <!-- ---- bahasa ---- -->
+      <div class="menu" data-menu="lang">
+        <button class="icon-btn" data-menu-btn
+                aria-haspopup="menu" aria-expanded="false" aria-label="Bahasa">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3c2.5 2.6 4 6 4 9s-1.5 6.4-4 9c-2.5-2.6-4-6-4-9s1.5-6.4 4-9z" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+        <div class="menu-pop pop-left" role="menu">
+          <div class="pop-title" data-i18n="lang.title">Bahasa</div>
+          <button class="pop-item" role="menuitemradio" data-set="lang" data-value="id">
+            <span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span>Indonesia</span>
+          </button>
+          <button class="pop-item" role="menuitemradio" data-set="lang" data-value="en">
+            <span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span>English</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ---- versi ---- -->
+      <div class="menu" data-menu="version">
+        <button class="version-pill" data-menu-btn
+                aria-haspopup="menu" aria-expanded="false">
+          <span>v1.0</span>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="menu-pop pop-left" role="menu">
+          <button class="pop-item no-tick" role="menuitem" data-set="version" data-value="1.0"
+                  data-i18n="ver.current">1.0 (Rilis saat ini)</button>
+          <div class="pop-sep"></div>
+          <button class="pop-item no-tick" role="menuitem" data-i18n="ver.archive">Arsip</button>
+        </div>
+      </div>
+
+      <!-- ---- tema & tata letak ---- -->
+      <div class="menu" data-menu="theme">
+        <button class="icon-btn" data-menu-btn
+                aria-haspopup="menu" aria-expanded="false" aria-label="Tema">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 000 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.2 0-1 .8-1.8 1.8-1.8H16a5 5 0 005-5c0-3.9-4-6.7-9-6.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.5" cy="12" r="1.1" fill="currentColor"/><circle cx="10" cy="8" r="1.1" fill="currentColor"/><circle cx="14.5" cy="8" r="1.1" fill="currentColor"/></svg>
+        </button>
+        <div class="menu-pop pop-right" role="menu">
+          <button class="pop-item" role="menuitemradio" data-set="theme" data-value="light">
+            <span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span data-i18n="theme.light">Mode terang</span>
+          </button>
+          <button class="pop-item" role="menuitemradio" data-set="theme" data-value="dark">
+            <span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span data-i18n="theme.dark">Mode gelap</span>
+          </button>
+          <button class="pop-item" role="menuitemradio" data-set="theme" data-value="auto">
+            <span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span data-i18n="theme.auto">Otomatis</span>
+          </button>
+
+          <div class="pop-sep"></div>
+
+          <button class="pop-item" role="menuitemradio" data-set="layout" data-value="fixed">
+            <span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span data-i18n="layout.fixed">Lebar tetap</span>
+          </button>
+          <button class="pop-item" role="menuitemradio" data-set="layout" data-value="fluid">
+            <span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span data-i18n="layout.fluid">Lebar penuh</span>
+          </button>
+        </div>
+      </div>
+
+      <a class="cta-btn" href="http://bakedsilo.com/" target="_blank" rel="noopener noreferrer">Visit Silo</a>
+    </div>
+  </div>
+
+  <nav class="docs-nav">
+    <a href="use-it-docs.html" data-i18n="dnav.1">Gunakan BAKED IT</a>
+    <a href="#" data-i18n="dnav.2">Asisten AI</a>
+    <a href="#" data-i18n="dnav.3">Perangkat</a>
+    <a href="#" data-i18n="dnav.4">Integrasi</a>
+    <a href="#" data-i18n="dnav.5">Instalasi</a>
+    <a href="#" data-i18n="dnav.6">Administrasi</a>
+    <a href="#" data-i18n="dnav.7">Lisensi</a>
+    <a href="#" data-i18n="dnav.8">Kontribusi</a>
+    <a href="#" data-i18n="dnav.9">Arsitektur</a>
+  </nav>
+</header>
+
+<!-- ============ ISI ============ -->
+<div class="docs-shell">
+
+  <!-- ---------- sidebar ---------- -->
+  <aside class="docs-side">
+    <a href="use-it-docs.html" class="side-item" data-i18n="side.1">Mulai di sini</a>
+
+    <button class="side-item" data-side-toggle>
+      <span data-i18n="side.2">Tutorial</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="side-sub">
+      <a href="doc.html?p=tutorial/onboarding" data-i18n="sub.2.1">Onboarding karyawan baru</a>
+      <a href="doc.html?p=tutorial/laptop" data-i18n="sub.2.2">Menyiapkan laptop kerja</a>
+      <a href="doc.html?p=tutorial/security" data-i18n="sub.2.3">Mengamankan akun</a>
+    </div>
+
+    <button class="side-item" data-side-toggle>
+      <span data-i18n="side.3">Kelola akun &amp; akses</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="side-sub">
+      <a href="doc.html?p=akses/create-account" data-i18n="sub.3.1">Buat akun baru</a>
+      <a href="doc.html?p=akses/reset-password" data-i18n="sub.3.2">Reset password</a>
+      <a href="doc.html?p=akses/access-rights" data-i18n="sub.3.3">Hak akses &amp; grup</a>
+    </div>
+
+    <button class="side-item" data-side-toggle>
+      <span data-i18n="side.4">Perangkat kerja</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="side-sub">
+      <a href="doc.html?p=hardware/reimage-laptop" data-i18n="sub.4.1">Reimage laptop standar</a>
+      <a href="doc.html?p=hardware/peripherals" data-i18n="sub.4.2">Periferal &amp; docking</a>
+      <a href="doc.html?p=hardware/licensing" data-i18n="sub.4.3">Lisensi software</a>
+    </div>
+
+    <button class="side-item" data-side-toggle>
+      <span data-i18n="side.5">Jaringan &amp; konektivitas</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="side-sub">
+      <a href="doc.html?p=network/wifi-setup" data-i18n="sub.5.1">Sambungkan ke WiFi kantor</a>
+      <a href="doc.html?p=network/vpn-access" data-i18n="sub.5.2">Akses VPN</a>
+      <a href="doc.html?p=network/topologi-vlan" data-i18n="sub.5.3">Topologi &amp; VLAN</a>
+    </div>
+
+    <button class="side-item" data-side-toggle>
+      <span data-i18n="side.6">Email &amp; kolaborasi</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="side-sub">
+      <a href="doc.html?p=email/outlook-setup" data-i18n="sub.6.1">Konfigurasi Outlook</a>
+      <a href="doc.html?p=email/file-sharing" data-i18n="sub.6.2">Berbagi berkas</a>
+      <a href="doc.html?p=email/meetings" data-i18n="sub.6.3">Rapat online</a>
+    </div>
+
+    <button class="side-item" data-side-toggle>
+      <span data-i18n="side.7">Keamanan informasi</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="side-sub">
+      <a href="doc.html?p=security/password-policy" data-i18n="sub.7.1">Kebijakan kata sandi</a>
+      <a href="doc.html?p=security/mfa" data-i18n="sub.7.2">Aktifkan MFA</a>
+      <a href="doc.html?p=security/phishing" data-i18n="sub.7.3">Kenali email phishing</a>
+    </div>
+
+    <button class="side-item" data-side-toggle>
+      <span data-i18n="side.8">Printer &amp; perangkat kantor</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="side-sub">
+      <a href="doc.html?p=office/printer-add" data-i18n="sub.8.1">Tambah printer jaringan</a>
+      <a href="doc.html?p=hardware/printer-offline" data-i18n="sub.8.2">Printer terbaca offline</a>
+      <a href="doc.html?p=office/scan-email" data-i18n="sub.8.3">Scan ke email</a>
+    </div>
+
+    <button class="side-item" data-side-toggle>
+      <span data-i18n="side.9">Server &amp; infrastruktur</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="side-sub">
+      <a href="doc.html?p=infrastructure/rack-map" data-i18n="sub.9.1">Peta rack &amp; server</a>
+      <a href="doc.html?p=infrastructure/backup" data-i18n="sub.9.2">Jadwal cadangan data</a>
+      <a href="doc.html?p=infrastructure/monitoring" data-i18n="sub.9.3">Pemantauan layanan</a>
+    </div>
+
+    <button class="side-item" data-side-toggle>
+      <span data-i18n="side.10">Prosedur &amp; SOP</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="side-sub">
+      <a href="doc.html?p=prosedur/handover" data-i18n="sub.10.1">Handover shift</a>
+      <a href="doc.html?p=prosedur/escalation" data-i18n="sub.10.2">Jalur eskalasi</a>
+      <a href="doc.html?p=prosedur/device-handoff" data-i18n="sub.10.3">Serah terima perangkat</a>
+    </div>
+
+    <button class="side-item" data-side-toggle>
+      <span data-i18n="side.11">Pemecahan masalah umum</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="side-sub">
+      <a href="doc.html?p=troubleshoot/sso-fails" data-i18n="sub.11.1">Login SSO gagal</a>
+      <a href="doc.html?p=software/outlook-sync" data-i18n="sub.11.2">Outlook tidak sinkron</a>
+      <a href="doc.html?p=network/wifi-drops" data-i18n="sub.11.3">WiFi terputus berkala</a>
+    </div>
+
+    <a href="doc.html?p=referensi/kode-error" class="side-item" data-i18n="side.12">Referensi kode error</a>
+  </aside>
+
+  <!-- ---------- konten ---------- -->
+  <main class="docs-main">
+    <div class="crumbs breadcrumb-nav">
+      <a href="index.html">BAKED IT</a>
+      <span class="sep">/</span>
+      <span class="now" id="docTitle" data-i18n="doc.loading">Memuat...</span>
+    </div>
+
+    <h1 id="docH1" data-i18n="doc.loading">Memuat...</h1>
+    <div class="doc-content" id="docContent">
+      <p data-i18n="doc.loadingBody">Memuat dokumen...</p>
+    </div>
+  </main>
+
+  <!-- ---------- rail kanan ---------- -->
+  <aside class="docs-rail">
+    <div class="rail-btn">
+      <a class="main" href="#">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10a2.8 2.8 0 10-4-4L4 16v4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <span data-i18n="rail.edit">Edit halaman ini</span>
+      </a>
+      <button class="split" aria-label="Opsi edit">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div class="rail-btn">
+      <a class="main" href="#">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M15 5.5A1.5 1.5 0 0113.5 4h-8A1.5 1.5 0 004 5.5v8A1.5 1.5 0 005.5 15" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span data-i18n="rail.copy">Salin untuk LLM</span>
+      </a>
+      <button class="split" aria-label="Opsi salin">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </aside>
+
+</div>
+
+<button class="to-top" id="toTop" aria-label="Kembali ke atas">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V6M6 12l6-6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-brand">
+      <img class="footer-brand-logo" src="Images/BAKED_LOGO_BLACK_RGB.png" alt="Baked">
+      <p class="footer-brand-text" data-i18n="footer.brand">Pusat panduan IT support untuk troubleshooting, SOP operasional, dan dokumentasi layanan dalam satu tempat.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4 data-i18n="footer.kategori">Kategori</h4>
+      <ul>
+        <li><a href="doc.html?p=akses/reset-password" data-i18n="footer.k1">Akses &amp; permintaan</a></li>
+        <li><a href="doc.html?p=hardware/reimage-laptop" data-i18n="footer.k2">Perangkat kerja</a></li>
+        <li><a href="doc.html?p=network/topologi-vlan" data-i18n="footer.k3">Jaringan &amp; konektivitas</a></li>
+        <li><a href="doc.html?p=email/outlook-setup" data-i18n="footer.k4">Email &amp; kolaborasi</a></li>
+        <li><a href="doc.html?p=security/password-policy" data-i18n="footer.k5">Keamanan informasi</a></li>
+        <li><a href="doc.html?p=infrastructure/rack-map" data-i18n="footer.k6">Server &amp; infrastruktur</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4 data-i18n="footer.bantuan">Bantuan</h4>
+      <ul>
+        <li><a href="use-it-docs.html" data-i18n="footer.b1">Gunakan BAKED IT</a></li>
+        <li><a href="#" data-i18n="footer.b2">Hubungi support</a></li>
+        <li><a href="doc.html?p=referensi/kode-error" data-i18n="footer.k8">Referensi kode error</a></li>
+        <li><a href="#" data-i18n="footer.b3">Laporkan bug</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="doc.js"></script>
+</body>
+</html>

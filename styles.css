@@ -1,0 +1,810 @@
+/* ============================================================
+   BAKED IT — tampilan mengacu pada GitLab Docs
+   ============================================================ */
+
+:root{
+  /* --- tema gelap (default) --- */
+  --bg:            #191920;
+  --card:          #202028;
+  --card-hover:    #27272f;
+  --border:        #303039;
+  --border-hover:  #45454f;
+
+  --fg:            #ffffff;
+  --fg-2:          #b7b5c0;
+  --fg-3:          #85838f;
+
+  --panel:         #2a2a32;
+  --panel-hover:   #34343d;
+  --panel-border:  transparent;
+  --panel-fg:      #b9b6c6;
+  --panel-strong:  #ffffff;
+
+  --pop:           #32323a;
+  --pop-hover:     #40404a;
+  --pop-border:    #40404a;
+  --pop-fg:        #e4e4e9;
+  --pop-strong:    #ffffff;
+  --ring:          #ffffff;
+
+  --scrim:         rgba(0,0,0,.32);
+  --panel-shadow:  0 32px 70px rgba(0,0,0,.55);
+  --pop-shadow:    0 18px 44px rgba(0,0,0,.45);
+  --accent:        #d4a06a;      /* garis bawah quicklink */
+
+  /* dari globals.css komponen Marquee 21st.dev; tidak ada aturan yang
+     merujuknya — komponen memakai fill-cyan-500, bukan sky. Aman dihapus. */
+  --sky-400:       #38bdf8;
+  --sky-500:       #0ea5e9;
+
+  /* Footer sengaja gelap di KEDUA tema, mengikuti GitLab Docs. Karena itu
+     warnanya tidak ditimpa di blok [data-theme="light"] di bawah. */
+  --footer-bg:       #2a2a31;
+  --footer-fg:       #ffffff;
+
+  --card-face:       #0a0a0b;
+  --card-hover-face: linear-gradient(135deg,#1e1e21 0%,#131315 55%,#0d0d10 100%);
+  --card-line:       rgba(255,255,255,.09);
+  --card-line-hover: rgba(255,255,255,.16);
+  --card-title:      #ffffff;
+  --card-text:       #ffffff;
+  --card-icon-face:  rgba(255,255,255,.03);
+  --card-icon-ink:   #ffffff;
+
+  --radius-hero:   24px;
+  --radius-card:   12px;
+  --radius-ctl:    10px;
+  --radius-search: 21px;
+
+  --shell:         1600px;
+  --pad-x:         clamp(16px, 3.2vw, 48px);
+}
+
+/* --- tema terang --- */
+[data-theme="light"]{
+  --bg:            #ffffff;
+  --card:          #ffffff;
+  --card-hover:    #f6f6f8;
+  --border:        #e3e3e7;
+  --border-hover:  #c2c2c9;
+
+  --fg:            #18181b;
+  --fg-2:          #55555e;
+  --fg-3:          #85858e;
+
+  --panel:         #ffffff;
+  --panel-hover:   #f1f1f4;
+  --panel-border:  #e0e0e5;
+  --panel-fg:      #3f3f47;
+  --panel-strong:  #18181b;
+
+  --pop:           #ffffff;
+  --pop-hover:     #eeeef1;
+  --pop-border:    #dcdce1;
+  --pop-fg:        #2c2c33;
+  --pop-strong:    #18181b;
+  --ring:          #18181b;
+
+  --scrim:         rgba(20,20,24,.28);
+  --panel-shadow:  0 26px 60px rgba(24,24,30,.22);
+  --pop-shadow:    0 16px 38px rgba(24,24,30,.18);
+  --accent:        #b9793c;
+
+  /* kartu di mode terang: putih dengan garis abu lembut, bukan hitam */
+  --card-face:       #ffffff;
+  --card-hover-face: #f7f7f9;
+  --card-line:       #e6e6ea;
+  --card-line-hover: #d2d2d9;
+  --card-title:      #1f2430;
+  --card-text:       #4a4a56;
+  --card-icon-face:  #f4f4f6;
+  --card-icon-ink:   #3f3f4a;
+
+  /* garis pemisah section marquee — jangan navy pekat di latar putih */
+  --mq-line-light:   #e6e6ea;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{
+  background:var(--bg);
+  color:var(--fg);
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-size:16px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit;background:none;border:none}
+button{cursor:pointer}
+::selection{background:#5b4b9e;color:#fff}
+
+.page{
+  max-width:var(--shell);
+  margin:0 auto;
+  padding:20px var(--pad-x) 72px;
+}
+[data-layout="fluid"] .page{max-width:none}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;
+  border-radius:var(--radius-hero);
+  /* Hitam pekat sebagai dasar; biru hanya jadi aksen cahaya di kiri-atas.
+     Lapisan ke-4 (vignette) yang menentukan seberapa "hitam" gradasinya —
+     naikkan .58/.94 untuk lebih pekat, turunkan untuk lebih lembut. */
+  background:
+    radial-gradient(64% 78% at 20% 12%,   rgba(88,122,188,.45) 0%, rgba(88,122,188,0) 62%),
+    radial-gradient(56% 50% at 58% -12%,  rgba(80,86,164,.24) 0%, rgba(80,86,164,0) 64%),
+    radial-gradient(66% 74% at 92% 96%,   rgba(22,46,94,.34) 0%, rgba(22,46,94,0) 66%),
+    radial-gradient(118% 112% at 42% 40%, rgba(2,4,10,0) 24%,
+                                          rgba(2,4,10,.58) 62%,
+                                          rgba(2,4,10,.94) 100%),
+    linear-gradient(158deg, #0e1728 0%, #070c19 48%, #02040a 100%);
+}
+
+.hero-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:clamp(16px,1.7vw,24px) clamp(18px,2.4vw,34px);
+}
+
+.brand{display:flex;align-items:center}
+.brand-name{
+  font-size:clamp(18px,1.45vw,23px);
+  font-weight:700;
+  letter-spacing:-.02em;
+  color:#fff;
+}
+[data-theme="light"] .brand-name{color:var(--fg)}
+
+.hero-nav-right{display:flex;align-items:center;gap:10px}
+
+.nav-link{
+  font-size:clamp(14px,1.05vw,16px);
+  color:rgba(255,255,255,.92);
+  padding:0 10px;
+  white-space:nowrap;
+}
+.nav-link:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+
+.icon-btn{
+  width:clamp(34px,2.6vw,40px);
+  height:clamp(34px,2.6vw,40px);
+  display:flex;align-items:center;justify-content:center;
+  border-radius:var(--radius-ctl);
+  background:rgba(255,255,255,.13);
+  color:#fff;
+  transition:background .15s;
+}
+.icon-btn:hover{background:rgba(255,255,255,.22)}
+.icon-btn svg{width:52%;height:52%}
+
+.version-pill{
+  display:flex;align-items:center;gap:7px;
+  height:clamp(34px,2.6vw,40px);
+  padding:0 13px;
+  border-radius:var(--radius-ctl);
+  background:rgba(255,255,255,.13);
+  color:#fff;
+  font-size:clamp(13px,1vw,15px);
+  font-weight:500;
+  white-space:nowrap;
+  transition:background .15s;
+}
+.version-pill:hover{background:rgba(255,255,255,.22)}
+.version-pill svg{width:13px;height:13px;opacity:.85;transition:transform .18s}
+.menu.open .version-pill svg{transform:rotate(180deg)}
+.menu.open .icon-btn,
+.menu.open .version-pill{background:rgba(255,255,255,.26)}
+
+.cta-btn{
+  display:inline-flex;
+  align-items:center;
+  height:clamp(34px,2.7vw,42px);
+  padding:0 clamp(14px,1.4vw,20px);
+  border-radius:var(--radius-ctl);
+  background:#fff;
+  color:#17171a;
+  font-size:clamp(13px,1.05vw,15.5px);
+  font-weight:600;
+  white-space:nowrap;
+  transition:background .15s;
+}
+.cta-btn:hover{background:#e6e6e8}
+
+/* cincin fokus hanya untuk navigasi keyboard */
+.icon-btn:focus,.version-pill:focus,.cta-btn:focus,.nav-link:focus{outline:none}
+.icon-btn:focus-visible,
+.version-pill:focus-visible,
+.cta-btn:focus-visible,
+.nav-link:focus-visible{
+  outline:2px solid #fff;
+  outline-offset:2px;
+  border-radius:var(--radius-ctl);
+}
+
+/* ============================================================
+   DROPDOWN TOPBAR (bahasa / versi / tema)
+   ============================================================ */
+.menu{position:relative}
+
+.menu-pop{
+  --caret:18px;
+  position:absolute;
+  top:calc(100% + 11px);
+  z-index:300;
+  display:none;
+  min-width:228px;
+  padding:6px 0;
+  background:var(--pop);
+  border:1px solid var(--pop-border);
+  border-radius:9px;
+  box-shadow:var(--pop-shadow);
+}
+.menu.open .menu-pop{display:block}
+.pop-left{left:0}
+.pop-right{right:0}
+
+.menu-pop::before{
+  content:'';
+  position:absolute;
+  top:-6px;
+  width:11px;height:11px;
+  transform:rotate(45deg);
+  background:var(--pop);
+  border-left:1px solid var(--pop-border);
+  border-top:1px solid var(--pop-border);
+}
+.pop-left::before{left:var(--caret)}
+.pop-right::before{right:var(--caret)}
+
+.pop-title{
+  padding:7px 18px 7px 14px;
+  font-size:14.5px;
+  font-weight:700;
+  color:var(--pop-strong);
+}
+
+.pop-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  padding:9px 20px 9px 14px;
+  text-align:left;
+  font-size:15px;
+  color:var(--pop-fg);
+  white-space:nowrap;
+  transition:background .1s;
+}
+.pop-item.no-tick{padding-left:18px}
+.pop-item .tick{
+  width:16px;height:16px;
+  flex:none;
+  opacity:0;
+}
+.pop-item .tick svg{width:100%;height:100%;display:block}
+.pop-item:hover{background:var(--pop-hover)}
+.pop-item.on{background:var(--pop-hover);color:var(--pop-strong)}
+.pop-item.on .tick{opacity:1}
+.pop-item:focus{
+  outline:2px solid var(--ring);
+  outline-offset:-3px;
+  border-radius:4px;
+}
+
+.pop-sep{
+  height:1px;
+  margin:6px 0;
+  background:var(--pop-border);
+}
+
+/* tooltip kecil di tombol topbar */
+/* ---------- isi hero ---------- */
+.hero-body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:clamp(48px,6.2vw,88px) clamp(18px,3vw,40px) clamp(58px,7.4vw,104px);
+}
+.hero-body h1{
+  font-size:clamp(32px,5.35vw,80px);
+  font-weight:700;
+  letter-spacing:-.032em;
+  line-height:1.06;
+  color:#fff;
+  max-width:1200px;
+  margin-bottom:clamp(26px,2.85vw,44px);
+}
+
+/* ---------- search ---------- */
+.search-wrap{
+  position:relative;
+  z-index:200;
+  width:100%;
+  max-width:clamp(520px,64vw,940px);
+}
+
+.search-field{
+  display:flex;
+  align-items:center;
+  gap:clamp(12px,1.2vw,18px);
+  height:clamp(50px,3.9vw,58px);
+  padding:0 clamp(14px,1.5vw,22px);
+  border-radius:var(--radius-search);
+  background:rgba(14,9,26,.52);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.10);
+  cursor:text;
+  transition:background .15s, box-shadow .15s;
+}
+.search-field:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+.search-field .s-ico{
+  width:clamp(17px,1.35vw,20px);
+  height:clamp(17px,1.35vw,20px);
+  color:rgba(255,255,255,.72);
+  flex:none;
+}
+.search-field input{
+  flex:1;
+  min-width:0;
+  height:100%;
+  outline:none;
+  color:#fff;
+  font-size:clamp(15px,1.26vw,19px);
+  letter-spacing:-.005em;
+}
+.search-field input::placeholder{color:rgba(255,255,255,.62)}
+
+.kbd{
+  flex:none;
+  display:flex;align-items:center;justify-content:center;
+  width:clamp(22px,1.75vw,26px);
+  height:clamp(22px,1.75vw,26px);
+  border-radius:6px;
+  background:#fff;
+  color:#2a2a30;
+  font-size:13px;
+  font-weight:500;
+  line-height:1;
+}
+
+/* ---------- mode terang: kolom cari & tombol hero jadi putih ----------
+   Semua aturan di bawah dikunci ke .hero. Kelas .search-field, .icon-btn,
+   dan .version-pill dipakai juga di header halaman dokumen, yang punya
+   perlakuan sendiri di docs.css — tanpa pembatas ini keduanya bertabrakan.
+
+   Catatan: hero tetap gelap di kedua tema, jadi "putih" di sini berarti
+   kontras terang di atas latar gelap, bukan mengikuti latar halaman. */
+[data-theme="light"] .hero .search-field{
+  background:#ffffff;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.10);
+}
+[data-theme="light"] .hero .search-field:hover{
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.22);
+}
+[data-theme="light"] .hero .search-wrap.open .search-field{
+  background:#ffffff;
+  backdrop-filter:none;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.10);
+}
+[data-theme="light"] .hero .search-field .s-ico{color:#5b5b66}
+[data-theme="light"] .hero .search-field input{color:#18181b}
+[data-theme="light"] .hero .search-field input::placeholder{color:#7a7a86}
+/* badge "/" dibalik: di kolom putih, isian putih tidak lagi terbaca */
+[data-theme="light"] .hero .kbd{background:#e9e9ee;color:#3a3a44}
+
+[data-theme="light"] .hero .icon-btn,
+[data-theme="light"] .hero .version-pill{
+  background:#ffffff;
+  color:#18181b;
+}
+[data-theme="light"] .hero .icon-btn:hover,
+[data-theme="light"] .hero .version-pill:hover{background:#eeeef1}
+[data-theme="light"] .hero .menu.open .icon-btn,
+[data-theme="light"] .hero .menu.open .version-pill{background:#e4e4ea}
+
+/* panel dropdown pencarian */
+.search-panel{
+  --s-inset:clamp(38px,3.6vw,52px);
+  position:absolute;
+  text-align:left;
+  top:calc(100% - 1px);
+  left:0;right:0;
+  display:none;
+  background:var(--panel);
+  border:1px solid var(--panel-border);
+  border-top:0;
+  border-radius:0 0 var(--radius-search) var(--radius-search);
+  box-shadow:var(--panel-shadow);
+  padding:clamp(18px,1.7vw,26px) 0 clamp(14px,1.3vw,20px);
+  max-height:min(62vh,560px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+.search-panel::-webkit-scrollbar{width:10px}
+.search-panel::-webkit-scrollbar-thumb{
+  background:#45454f;
+  border-radius:99px;
+  border:3px solid var(--panel);
+}
+
+/* saat terbuka: field & panel menyatu */
+.search-wrap.open .search-field{
+  border-radius:var(--radius-search) var(--radius-search) 0 0;
+  background:rgba(26,18,44,.94);
+  backdrop-filter:blur(10px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+}
+.search-wrap.open .search-panel{display:block}
+
+.s-label{
+  padding:0 var(--s-inset) 6px;
+  font-size:clamp(14px,1.1vw,16.5px);
+  font-weight:700;
+  color:var(--panel-strong);
+  letter-spacing:-.01em;
+}
+.s-item + .s-label{margin-top:clamp(14px,1.4vw,22px)}
+
+.s-item{
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:clamp(10px,.95vw,14px) var(--s-inset);
+  font-size:clamp(14.5px,1.15vw,17px);
+  color:var(--panel-fg);
+  letter-spacing:-.005em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  transition:background .1s, color .1s;
+}
+.s-item:hover,
+.s-item.sel{background:var(--panel-hover);color:var(--panel-strong)}
+.s-item mark{background:none;color:var(--panel-strong);font-weight:600}
+
+.s-empty{
+  padding:clamp(14px,1.4vw,20px) var(--s-inset) clamp(20px,2vw,28px);
+  font-size:clamp(14px,1.1vw,16px);
+  color:var(--fg-3);
+}
+
+/* ---------- quicklinks ---------- */
+.quicklinks{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:clamp(16px,2.1vw,32px);
+  margin-top:clamp(22px,2.6vw,38px);
+}
+.quicklinks a{
+  font-size:clamp(14px,1.12vw,16.5px);
+  color:#f2eff8;
+  padding-bottom:4px;
+  border-bottom:1.5px solid var(--accent);
+  transition:border-color .15s;
+}
+.quicklinks a:hover{border-bottom-color:#fff}
+
+/* scrim saat search terbuka */
+.scrim{
+  position:fixed;inset:0;
+  background:var(--scrim);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .16s;
+  z-index:150;
+}
+.scrim.on{opacity:1;pointer-events:auto}
+
+/* ============================================================
+   GRID KARTU
+   ============================================================ */
+.grid-section{padding-top:clamp(24px,2.6vw,38px)}
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  /* Semua baris dipaksa setinggi baris tertinggi, jadi tinggi kartu seragam
+     lintas baris — bukan cuma di dalam satu baris. */
+  grid-auto-rows:1fr;
+  gap:clamp(14px,1.6vw,24px);
+}
+
+/* ---------- kartu fitur ----------
+   Semua efek dekoratif dari komponen 21st.dev dibuang: glow, blob, orb,
+   sapuan kilau, aksen sudut, garis pemisah, dan tiga titik.
+   Reaksi hover: latar mencerah, garis tepi menguat, seluruh kartu zoom tipis. */
+.card{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  text-align:left;
+  padding:clamp(18px,1.7vw,26px);
+  border:1px solid var(--card-line);
+  border-radius:14px;
+  background:var(--card-face);
+  transition:transform .18s cubic-bezier(.22,1,.36,1),
+             background-color .2s ease,
+             border-color .2s ease;
+}
+/* Latar mencerah dari sudut kiri-atas, dan seluruh kartu — teks ikut —
+   membesar tipis. Tanpa box-shadow: bayangan gelap di atas latar yang juga
+   gelap terbaca sebagai garis hitam tipis mengelilingi kartu. */
+.card:hover{
+  transform:scale(1.025);
+  background:var(--card-hover-face);
+  border-color:var(--card-line-hover);
+  z-index:1;                     /* agar tepinya tidak tertimpa kartu tetangga */
+}
+@media(prefers-reduced-motion:reduce){
+  .card:hover{transform:none}
+}
+
+/* ikon dan judul berbagi satu baris */
+.card-head{
+  display:flex;
+  align-items:center;
+  gap:clamp(12px,1.1vw,16px);
+  margin-bottom:clamp(22px,2.4vw,38px);
+}
+.card-icon{
+  flex:none;
+  display:flex;align-items:center;justify-content:center;
+  width:clamp(38px,3vw,46px);
+  height:clamp(38px,3vw,46px);
+  border-radius:12px;
+  border:1px solid var(--card-line);
+  background:var(--card-icon-face);
+  color:var(--card-icon-ink);
+}
+.card-icon svg{width:46%;height:46%}
+
+/* ============================================================
+   INTEGRATIONS MARQUEE
+   Jembatan visual antara grid kartu dan footer. Sengaja netral:
+   tanpa warna aksen, tanpa border, tanpa card wrapper.
+   ============================================================ */
+.integrations{
+  --mq-line:  #262E45;
+  --mq-label: #64748B;
+  margin-top:48px;
+}
+.integrations-line{
+  height:1px;
+  background:var(--mq-line);
+  margin-bottom:48px;
+}
+[data-theme="light"] .integrations{--mq-line:var(--mq-line-light)}
+.integrations-title{
+  margin-bottom:26px;
+  text-align:center;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:var(--mq-label);
+}
+
+/* Port kelas Tailwind komponen Marquee:
+   pembungkus  w-full overflow-hidden sm:mt-24 mt-10 z-10
+   viewport    relative flex max-w-[90vw] overflow-hidden py-5
+   track       flex w-max animate-marquee   (--duration: 30s)
+   item        relative h-full w-fit mx-[4rem] flex items-center justify-start
+   Isi digandakan dua kali, lalu digeser -50% — karena tiap item punya margin
+   kiri-kanan yang sama, kedua paruhnya identik dan loop-nya mulus. */
+.marquee{
+  width:100%;
+  overflow:hidden;
+  margin-top:40px;               /* mt-10 */
+  z-index:10;
+}
+@media(min-width:640px){
+  .marquee{margin-top:96px}      /* sm:mt-24 */
+}
+.marquee-viewport{
+  position:relative;
+  display:flex;
+  max-width:90vw;
+  overflow:hidden;
+  padding:20px 0;                /* py-5 */
+}
+.marquee-track{
+  --duration:30s;
+  display:flex;
+  width:max-content;
+  animation:marquee-scroll var(--duration) linear infinite;
+}
+.marquee-item{
+  position:relative;
+  height:100%;
+  width:fit-content;
+  margin:0 4rem;                 /* mx-[4rem] */
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+}
+
+/* fill-primary -> tinta mengikuti tema; fill-cyan-500 dan #f90 apa adanya */
+.logo-ink{fill:var(--fg)}
+.logo-cyan{fill:#06b6d4}
+.logo-aws-arrow{fill:#f90}
+
+.logo-tw{height:28px;width:140px}
+@media(min-width:640px){ .logo-tw{width:auto} }   /* sm:w-auto */
+.logo-next{height:20px;width:auto}
+.logo-aws{height:40px;width:auto}
+
+.logo-motion{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;                      /* gap-3 */
+  height:fit-content;
+  font-size:20px;                /* text-xl */
+  font-weight:700;
+  color:var(--fg);
+}
+.logo-motion-mark{height:30px;width:auto;fill:currentColor}
+
+@keyframes marquee-scroll{to{transform:translateX(-50%)}}
+
+@media(prefers-reduced-motion:reduce){
+  .marquee-track{animation:none}
+}
+
+/* ============ FOOTER ============ */
+/* Latar footer sengaja beda dari --bg supaya blok ini terbaca terpisah.
+   border-top tidak lagi diperlukan — pergantian warnanya sudah jadi batas. */
+.footer{
+  margin-top:clamp(48px,8vw,80px);
+  padding:clamp(32px,5vw,48px) var(--pad-x) clamp(18px,2vw,26px);
+  background:var(--footer-bg);
+}
+
+.footer-content{
+  max-width:var(--shell);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1.5fr 1.1fr 0.9fr;
+  gap:clamp(26px,4vw,56px);
+  align-items:start;
+}
+
+.footer-brand{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:clamp(18px,2vw,28px);
+}
+
+.footer-brand-logo{
+  display:block;
+  width:min(100%, 150px);
+  height:auto;
+  object-fit:contain;
+  filter: brightness(0) invert(1);
+}
+
+.footer-brand-text{
+  max-width:420px;
+  margin:0;
+  font-size:clamp(9px,1.15vw,18px);
+  line-height:1.45;
+  letter-spacing:-.025em;
+  color:var(--footer-fg);
+}
+
+.footer-col h4{
+  font-size:clamp(14px,1.5vw,18px);
+  font-weight:700;
+  letter-spacing:-.01em;
+  color:var(--footer-fg);
+  margin-bottom:18px;
+}
+
+.footer-col ul{
+  list-style:none;
+  padding:0;
+  margin:0;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.footer-col a{
+  color:var(--footer-fg);
+  text-decoration:none;
+  font-size:clamp(14px,1.2vw,16px);
+  line-height:1.5;
+  transition:color .15s;
+  border-radius:4px;
+  padding:4px 0;
+}
+
+.footer-col a:hover{
+  color:var(--accent);
+}
+
+@media (max-width: 760px) {
+  .footer-content{
+    grid-template-columns:1fr;
+  }
+
+  .footer-brand-logo{
+    width:min(100%, 220px);
+  }
+
+  .footer-brand-text{
+    font-size:18px;
+  }
+} 
+
+.card h3{
+  display:flex;
+  align-items:center;
+  gap:.5em;
+  flex:1;
+  min-width:0;
+  font-size:clamp(16px,1.35vw,20px);
+  font-weight:700;
+  letter-spacing:-.018em;
+  line-height:1.2;
+  color:var(--card-title);
+}
+.card h3 > span:first-child{min-width:0}   /* izinkan judul membungkus */
+
+/* Ruang panah dipesan permanen — hanya opacity & geser yang beranimasi.
+   Sebelumnya panah melebar dari max-width:0, sehingga saat hover ia merebut
+   ruang judul, memaksa judul panjang pecah jadi dua baris dan mendorong
+   seluruh isi kartu turun. */
+.card h3 .arrow{
+  flex:none;
+  margin-left:auto;
+  opacity:0;
+  transform:translateX(-4px);
+  white-space:nowrap;
+  transition:opacity .18s ease, transform .18s ease;
+}
+.card:hover h3 .arrow{opacity:1;transform:translateX(0)}
+
+.card p{
+  font-size:clamp(13.5px,1.12vw,16px);
+  line-height:1.55;
+  color:var(--card-text);
+  letter-spacing:-.004em;
+}
+
+/* ============================================================
+   RESPONSIF
+   ============================================================ */
+@media(max-width:1180px){
+  .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:820px){
+  .nav-link{display:none}
+  .search-wrap{max-width:100%}
+  .search-panel{--s-inset:24px}
+}
+@media(max-width:620px){
+  .page{padding:14px 14px 48px}
+  .hero-topbar{flex-wrap:wrap;gap:12px}
+  .hero-body h1{max-width:none}
+  /* Satu kolom: tinggi seragam tidak lagi berguna dan hanya menyisakan
+     ruang kosong besar di kartu berteks pendek. */
+  .card-grid{grid-template-columns:1fr;grid-auto-rows:auto}
+  /* marquee tetap menggulir, hanya dirapatkan */
+  .integrations{margin-top:36px}
+  .integrations-line{margin-bottom:36px}
+  .integrations-title{font-size:11px;margin-bottom:20px}
+  .marquee-item{margin:0 2rem}
+  .version-pill span{display:none}
+  .quicklinks{gap:12px 18px}
+  .menu-pop{min-width:180px}
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Akses terbatas — BAKED IT</title>
+
+<!-- Seluruh gaya ditulis di dalam berkas ini dengan sengaja.
+     styles.css ikut dijaga middleware, jadi halaman login tidak boleh
+     bergantung padanya. Tidak ada komponen dari halaman lain yang disalin. -->
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:#191920;
+    color:#ffffff;
+    font-family:system-ui,-apple-system,'Segoe UI',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .box{
+    width:100%;
+    max-width:380px;
+    padding:36px 32px 32px;
+    background:#202028;
+    border:1px solid #303039;
+    border-radius:14px;
+    text-align:center;
+  }
+  h1{
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:-.02em;
+  }
+  .sub{
+    margin-top:10px;
+    font-size:14.5px;
+    line-height:1.55;
+    color:#b7b5c0;
+  }
+  .signin{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    width:100%;
+    margin-top:28px;
+    padding:12px 16px;
+    background:#ffffff;
+    color:#17171a;
+    border:0;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:600;
+    text-decoration:none;
+    cursor:pointer;
+    transition:background .15s;
+  }
+  .signin:hover{background:#e6e6e8}
+  .signin svg{width:18px;height:18px;flex:none}
+
+  .msg{
+    display:none;
+    margin-top:20px;
+    padding:11px 13px;
+    border-radius:9px;
+    font-size:13.5px;
+    line-height:1.5;
+    text-align:left;
+    background:#2a2a32;
+    border:1px solid #3c3c46;
+    color:#e4e4e9;
+  }
+  .msg.on{display:block}
+</style>
+</head>
+<body>
+
+  <main class="box">
+    <h1>Akses terbatas</h1>
+    <p class="sub">Dokumentasi ini hanya untuk tim IT internal.</p>
+
+    <a class="signin" id="signin" href="/api/auth/login">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
+        <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
+        <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/>
+        <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
+      </svg>
+      <span>Sign in with Google</span>
+    </a>
+
+    <p class="msg" id="msg"></p>
+  </main>
+
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search);
+
+    // Teruskan halaman tujuan supaya setelah login user kembali ke sana.
+    var next = q.get('next');
+    if (next && next.charAt(0) === '/' && next.charAt(1) !== '/') {
+      document.getElementById('signin').href =
+        '/api/auth/login?next=' + encodeURIComponent(next);
+    }
+
+    var TEXT = {
+      notallowed: 'Akun Google kamu berhasil dikenali, tapi emailnya belum terdaftar. Hubungi admin IT untuk didaftarkan.',
+      unverified: 'Email pada akun Google itu belum terverifikasi.',
+      invalid:    'Proses login tidak selesai. Coba ulangi.',
+      loggedout:  'Kamu sudah keluar. Masuk lagi untuk membuka dokumentasi.'
+    };
+    var msg = TEXT[q.get('error')];
+    if (msg) {
+      var el = document.getElementById('msg');
+      el.textContent = msg;
+      el.className = 'msg on';
+    }
+  })();
+</script>
+
+</body>
+</html>
